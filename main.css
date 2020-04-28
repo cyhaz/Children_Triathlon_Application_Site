@@ -1,0 +1,33 @@
+body {margin: 0px;}
+#wrapper {
+    width: 1000px; 
+    height: 100%; 
+    margin: auto;
+}
+#wrapper div { 
+    width: 1000px; 
+    position: absolute;
+    overflow: hidden;
+}
+#topContainer {
+    height: 70px;
+}
+#menuContainer {
+    height: 200px; 
+    top: 70px; 
+    z-index: 2;
+}
+#imgContainer {
+    height: 450px; 
+    top: 120px;  
+    z-index: 1;
+}
+#container {
+    height: 550px; 
+    top: 570px;
+}
+#bottomContainer {
+    height: 150px; 
+    top: 1120px;
+    background: rgb(41, 41, 41);
+}

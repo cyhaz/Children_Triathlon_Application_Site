@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css"/>
+    <title>Main</title>
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    
+    <!-- main script -->
+    <script>
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event함수 실행
+        });
+
+        // main container (shortcutBtn [calendar, application])
+        function createContainer() {
+
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>
