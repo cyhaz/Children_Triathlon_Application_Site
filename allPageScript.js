@@ -19,6 +19,19 @@ var mainImgSrcArray=[
     "img/mainImg/7.png",
     "img/mainImg/8.png",
 ];
+var h=0;
+var hrefArray=[
+    "",
+    "",
+    "",
+    "signupPage.html",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+];
 
 
 // all container reset
@@ -42,9 +55,9 @@ function init() {
 function createTopContainer() {
     var logo=new Logo(topContainer, 200, 50, 20, 10,  "img/logo.png");
     objectManager.addObject(logo);
-    var loginBtn=new Btn(topContainer, 70, 50, 850, 20, "Log In", /*로그인페이지*/"");
+    var loginBtn=new Btn(topContainer, 70, 50, 850, 20, "Log In", hrefArray[8]);
     objectManager.addObject(loginBtn);
-    var signupBtn=new Btn(topContainer, 70, 50, 930, 20, "Sign Up", /*회원가입페이지*/"");
+    var signupBtn=new Btn(topContainer, 70, 50, 930, 20, "Sign Up", hrefArray[3]);
     objectManager.addObject(signupBtn);
 }
 
@@ -54,7 +67,7 @@ function createMenuContainer() {
         var menuTable=new MenuTable(menuContainer, 250, 50, i*250, 0, categoryArray[0][i], menuColor[i], i);
         objectManager.addObject(menuTable);
         for(var j=0;j<categoryArray[i+1].length;j++) {
-            var menuTr=new MenuTr(menuTable.div, 250, 50, 0, 50+j*50, categoryArray[i+1][j], menuColor[i],  /*hrefArray[href++]*/"");
+            var menuTr=new MenuTr(menuTable.div, 250, 50, 0, 50+j*50, categoryArray[i+1][j], menuColor[i],  hrefArray[h++]);
             objectManager.addObject(menuTr);
         }
     }
@@ -80,6 +93,15 @@ function slideImg() {
         });
     }
     setTimeout("slideImg()", 2000);
+}
+
+// mainContainer left menu list
+function createMenuList() {
+    var leftMenuTable=new ContainerMenuTable(container, 170, 550, 0, 0, categoryArray[0][thisPageValue], menuColor[thisPageValue]);
+    for(var i=0;i<categoryArray[thisPageValue+1].length;i++) {
+        var leftMenuTr=new ContainerMenuTr(leftMenuTable.div, 170, 50, 0, 100+i*50, categoryArray[thisPageValue+1][i], menuColor[thisPageValue], hrefArray[categoryArray[thisPageValue].length+i]);
+        objectManager.addObject(leftMenuTr);
+    }
 }
 
 // info container

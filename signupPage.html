@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css"/>
+    <title>Sign Up</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    <script src="js/MenuTable.js"></script>
+    <script src="js/MenuTr.js"></script>
+    <script src="js/MainImg.js"></script>
+    <script src="js/ContainerMenuTable.js"></script>
+    <script src="js/ContainerMenuTr.js"></script>
+    <script src="js/InfoBox.js"></script>
+    <script src="js/TextObject.js"></script>
+    <script src="js/InputObject.js"></script>
+    <script src="js/RegisterBtn.js"></script>
+    
+    <!-- main script -->
+    <script>
+        // 대회안내 : 0, 신청하기 : 1, Game : 2, 마이페이지 : 3
+        var thisPageValue=1;
+
+        var signupFormTextArray=['* 이름','* 아이디','* 비밀번호','* 비밀번호 확인','* 연락처','* e-mail'];
+        var signupFormInputArray=['이름을','아이디를','8자이상','8자이상','\'-\'를 제외하고','이메일을'];
+        var inputTypeArray=["text","text","password","password","text","email"];
+        var inputArray=[];
+        var userInfo=[];
+
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event method
+        });
+
+        // main container (sign up form)
+        function createContainer() {
+            createMenuList();  // main container menu list
+            // text
+            for(var i=0;i<signupFormTextArray.length;i++) {
+                var text=new TextObject(container, 120, 30, 400, 80+i*55, signupFormTextArray[i]);
+            }
+            // inputBox
+            for(var i=0;i<signupFormInputArray.length;i++) {
+                var input=new InputObject(container, 200, 30, 550, 80+i*55, signupFormInputArray[i], inputTypeArray[i]);
+                inputArray.push(input);
+            }
+            // registerBtn
+            var registerBtn=new RegisterBtn(container, 320, 50, 400, 420, "회원가입", hrefArray[8]);
+            objectManager.addObject(registerBtn);
+        }
+
+        // userInfo to json
+        function register() {
+            var json={
+                "name":inputArray[0].input.value,
+                "ID":inputArray[1].input.value,
+                "password":inputArray[2].input.value,
+                "password2":inputArray[3].input.value,
+                "phone":inputArray[4].input.value,
+                "email":inputArray[5].input.value
+            };
+            userInfo.push(json);
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>
