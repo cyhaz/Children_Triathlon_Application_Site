@@ -18,4 +18,5 @@ class SiteObject {
         container.appendChild(this.div);
     }
     event() {}
+    move() {}
 }
