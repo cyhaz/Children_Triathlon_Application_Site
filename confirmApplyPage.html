@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css"/>
+    <title>신청내역 확인</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    <script src="js/MenuTable.js"></script>
+    <script src="js/MenuTr.js"></script>
+    <script src="js/MainImg.js"></script>
+    <script src="js/ContainerMenuTable.js"></script>
+    <script src="js/ContainerMenuTr.js"></script>
+    <script src="js/InfoBox.js"></script>
+    <script src="js/TextObject.js"></script>
+    
+    <!-- main script -->
+    <script>
+        // 대회안내 : 0, 신청하기 : 1, Game : 2, 마이페이지 : 3
+        var thisPageValue=3;
+
+        var applyFormTextArray=['* 참가인','* 부모님연락처','* 신청대회','* 거주지역'];
+        var userApplyData={
+            name:"최유현",
+            parentsPhone:"010-2261-2183",
+            competitionName:"대회 1 (서울)",
+            residence:"서울시"
+        };
+        var userApplyDataArray=[userApplyData.name, userApplyData.parentsPhone, userApplyData.competitionName, userApplyData.residence];
+
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event method
+        });
+
+        // main container (log in form)
+        function createContainer() {
+            createMenuList();  // main container menu list
+
+            // confirm application form text
+            for(var i=0;i<applyFormTextArray.length;i++) {
+                var text1=new TextObject(container, 120, 30, 400, 150+i*70, applyFormTextArray[i]);
+            }
+
+            // confirm application form userInfo text
+            for(var i=0;i<applyFormTextArray.length;i++) {
+                var text1=new TextObject(container, 200, 30, 600, 150+i*70, userApplyDataArray[i]);
+                text1.div.style.fontWeight="initial";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>

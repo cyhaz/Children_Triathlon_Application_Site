@@ -21,16 +21,16 @@ var mainImgSrcArray=[
 ];
 var h=0;
 var hrefArray=[
-    "",
-    "",
-    "",
+    "introPage.html",
+    "videoPage.html",
+    "calendarPage.html",
     "signupPage.html",
+    "applyPage.html",
     "",
     "",
     "",
-    "",
-    "",
-    ""
+    "loginPage.html",
+    "confirmApplyPage.html"
 ];
 
 
@@ -98,10 +98,10 @@ function slideImg() {
 // mainContainer left menu list
 function createMenuList() {
     var leftMenuTable=new ContainerMenuTable(container, 170, 550, 0, 0, categoryArray[0][thisPageValue], menuColor[thisPageValue]);
-    for(var i=0;i<categoryArray[thisPageValue+1].length;i++) {
-        var leftMenuTr=new ContainerMenuTr(leftMenuTable.div, 170, 50, 0, 100+i*50, categoryArray[thisPageValue+1][i], menuColor[thisPageValue], hrefArray[categoryArray[thisPageValue].length+i]);
-        objectManager.addObject(leftMenuTr);
-    }
+    // for(var i=0;i<categoryArray[thisPageValue+1].length;i++) {
+    //     var leftMenuTr=new ContainerMenuTr(leftMenuTable.div, 170, 50, 0, 100+i*50, categoryArray[thisPageValue+1][i], menuColor[thisPageValue], hrefArray[/*어떻게해야할까..?*/0]);
+    //     objectManager.addObject(leftMenuTr);
+    // }
 }
 
 // info container

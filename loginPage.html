@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css"/>
+    <title>Log In</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    <script src="js/MenuTable.js"></script>
+    <script src="js/MenuTr.js"></script>
+    <script src="js/MainImg.js"></script>
+    <script src="js/ContainerMenuTable.js"></script>
+    <script src="js/ContainerMenuTr.js"></script>
+    <script src="js/InfoBox.js"></script>
+    <script src="js/TextObject.js"></script>
+    <script src="js/InputObject.js"></script>
+    <script src="js/LoginBtn.js"></script>
+    
+    <!-- main script -->
+    <script>
+        // 대회안내 : 0, 신청하기 : 1, Game : 2, 마이페이지 : 3
+        var thisPageValue=3;
+
+        var loginFormTextArray=['ID','Password'];
+        var loginFormInputArray=['아이디를','비밀번호를'];
+        var inputTypeArray=["text","password"];
+        var inputArray=[];
+
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event method
+        });
+
+        // main container (log in form)
+        function createContainer() {
+            createMenuList();  // main container menu list
+            // text
+            for(var i=0;i<loginFormTextArray.length;i++) {
+                var text=new TextObject(container, 120, 30, 400, 200+i*55, loginFormTextArray[i]);
+            }
+            // inputBox
+            for(var i=0;i<loginFormInputArray.length;i++) {
+                var input=new InputObject(container, 200, 30, 550, 200+i*55, loginFormInputArray[i], inputTypeArray[i]);
+                inputArray.push(input);
+            }
+            // registerBtn
+            var loginBtn=new LoginBtn(container, 320, 50, 400, 320, "로그인", hrefArray[4]);
+            objectManager.addObject(loginBtn);
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>

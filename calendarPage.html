@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css"/>
+    <title>대회 일정</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    <script src="js/MenuTable.js"></script>
+    <script src="js/MenuTr.js"></script>
+    <script src="js/MainImg.js"></script>
+    <script src="js/ContainerMenuTable.js"></script>
+    <script src="js/ContainerMenuTr.js"></script>
+    <script src="js/InfoBox.js"></script>
+    <script src="js/DivObject.js"></script>
+    <script src="js/CalendarBtn.js"></script>
+    
+    <!-- main script -->
+    <script>
+        // 대회안내 : 0, 신청하기 : 1, Game : 2, 마이페이지 : 3
+        var thisPageValue=0;
+
+        var cArea, monthYearTxt, bigDay, bigDate, toDoList;
+        var longDays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var shortDays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        var months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var calendarTds=[];
+        var today=new Date();
+        var thisYear=today.getFullYear();
+        var thisMonth=today.getMonth();
+        var thisDate=today.getDate();
+        var thisDay=today.getDay();
+        var bgY=0;
+        var listArray=[
+            '대회 1 (서울)',
+            '대회 2 (인천)',
+            '대회 3 (대구)',
+            '대회 4 (대전)',
+            '대회 5 (여수)'
+        ];
+
+
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event method
+        });
+
+        // main container (log in form)
+        function createContainer() {
+            createMenuList();  // main container menu list
+
+            // 달력 컨테이너 생성 및 디자인, 메인 컨테이너에 부착
+            calendarContainer=document.createElement("div");
+            calendarContainer.style.backgroundImage="url(\"img/starrynight.jpg\")";
+            calendarContainer.style.width=700+"px";
+            calendarContainer.style.height=500+"px";
+            calendarContainer.style.position="absolute";
+            calendarContainer.style.left=240+"px";
+            calendarContainer.style.top=25+"px";
+            calendarContainer.style.borderRadius=20+"px";
+            container.appendChild(calendarContainer);
+
+            // 우측 노란색컨테이너 생성 및 부착
+            cArea=document.createElement("div");
+            cArea.style.width=370+"px";
+            cArea.style.height=100+"%";
+            cArea.style.position="absolute";
+            cArea.style.left=330+"px";
+            cArea.style.padding=35+"px";
+            cArea.style.background="#FFC801";
+            calendarContainer.appendChild(cArea);
+            setInterval("moveBg()", 20);
+
+            createLeftArea();
+            createRightArea();
+        }
+
+        // 배경이미지 움직임 생성
+        function moveBg() {
+            bgY+=1;
+            calendarContainer.style.backgroundPosition="0px "+bgY+"px";
+        }
+
+        // 좌측 요일, 날짜, 대회일정Txt 생성
+        function createLeftArea() {
+            bigDay=new DivObject(calendarContainer, 330, 50, 0, 120, longDays[thisDay], 20);
+            bigDate=new DivObject(calendarContainer, 330, 200, 0, 150, thisDate, 100);
+            var listTxt=new DivObject(calendarContainer, 130, 50, 0, 350, "▣ Today List", 10);
+            toDoList=new DivObject(calendarContainer, 330, 150, 30, 380, listArray[0], 9);
+            toDoList.div.style.textAlign="left";
+            toDoList.div.style.fontWeight="initial";
+        }
+
+        // 우측 년월Txt, 방향표시이미지, 캘린더 생성
+        function createRightArea() {
+            // 상단 월 + 년도
+            monthYearTxt=new DivObject(cArea, 200, 50, 85, 100, months[thisMonth]+" "+today.getFullYear(), 15);
+            monthYearTxt.div.style.color="black";
+            // 이전달, 다음달 넘어가는 화살표 이미지
+            var leftBtn=new CalendarBtn(cArea, 30, 30, 30, 100, "img/left.png");
+            var rightBtn=new CalendarBtn(cArea, 30, 30, 310, 100, "img/right.png");
+            // 이전달로 이동
+            leftBtn.img.addEventListener("click", function() {
+                today.setDate(0);
+                printDate();
+            });
+            // 다음달로 이동
+            rightBtn.img.addEventListener("click", function() {
+                today.setDate(32);
+                printDate();
+            });
+            // 캘린더
+            createCalendar();
+        }
+
+        // 캘린더 생성
+        function createCalendar() {
+            // 요일 테이블 생성
+            var dayTable=document.createElement("table");
+            dayTable.style.position="absolute";
+            dayTable.style.top=160+"px";
+            var row=dayTable.insertRow(0);
+            for(var i=0;i<7;i++) {
+                var cell=row.insertCell(i);
+                cell.innerText=shortDays[i];
+                cell.style.width=39+"px";
+                cell.style.height=39+"px";
+                cell.style.textAlign="center";
+                cell.style.fontSize=17+"px";
+                cell.style.fontWeight="bold";
+                cell.style.cursor="default";
+                if(i==0) {
+                    cell.style.color="red";
+                } else if(i==6) {
+                    cell.style.color="darkblue";
+                }
+            }
+            cArea.appendChild(dayTable);
+
+            // 날짜 테이블 생성
+            var calendarTable=document.createElement("table");
+            calendarTable.style.position="absolute";
+            calendarTable.style.top=200+"px";
+            // 캘린더 tr 생성
+            for(var i=0;i<6;i++) {
+                var row=calendarTable.insertRow(i);
+                // td 생성 후 tds배열에 담기
+                for(var j=0;j<7;j++) {
+                    var cell=row.insertCell(j);
+                    calendarTds.push(cell);
+                    cell.style.width=39+"px";
+                    cell.style.height=39+"px";
+                    cell.style.textAlign="center";
+                    cell.style.fontSize=20+"px";
+                    cell.style.fontWeight="bold";
+                    cell.style.cursor="default";
+
+                    // td 클릭 시 
+                    cell.addEventListener("click", function() {
+                        // 초기화
+                        for(var a=0;a<calendarTds.length;a++) {
+                            calendarTds[a].style.background="none";
+                            calendarTds[a].style.color="black";
+                            if(a%7==0) {
+                                calendarTds[a].style.color="red";
+                            } else if(a%7==6) {
+                                calendarTds[a].style.color="darkblue";
+                            }
+                        }
+                        // 배경 까만 동그라미 + 글씨 하얗게
+                        if(this.innerText!="") {
+                            this.style.background="black";
+                            this.style.color="white";
+                            this.style.borderRadius=20+"px";
+
+                            // 좌측 요일 날짜 변경
+                            var thiscell=calendarTds.indexOf(this);
+                            for(var k=0;k<longDays.length;k++) {
+                                if(thiscell%7==k) {
+                                    bigDay.div.innerText=longDays[k];
+                                }
+                            }
+                            bigDate.div.innerText=this.innerText;
+    
+                            // 대회 일정 변경
+                            toDoList.div.innerText=listArray[getRandom(0,listArray.length-1)];
+                        }
+                    });
+                }
+            }
+            cArea.appendChild(calendarTable);
+            printDate();
+        }
+
+        // 날짜 생성
+        function printDate() {
+            // 초기화
+            for(var i=0;i<calendarTds.length;i++) {
+                calendarTds[i].innerText="";
+                calendarTds[i].style.background="none";
+                calendarTds[i].style.color="black";
+            }
+            monthYearTxt.div.innerText="";
+            // 날짜 변수로 받기
+            var lastDateOfLastMonth=new Date(today.getFullYear(), today.getMonth(), 0);
+            var lastDay=lastDateOfLastMonth.getDay();
+            var lastDateOfthisMonth=new Date(today.getFullYear(), today.getMonth()+1, 0);
+            var lastD=lastDateOfthisMonth.getDate();
+            
+            // 토요일 일요일 색깔 설정
+            for(var i=0;i<calendarTds.length;i++) {
+                if(i%7==0) {
+                    calendarTds[i].style.color="red";
+                } else if(i%7==6) {
+                    calendarTds[i].style.color="darkblue";
+                }
+            }
+
+            // 날짜 붙이기
+            for(var i=0;i<lastD;i++) {
+                today.setDate(i+1);
+                if(lastDay==6) {
+                    lastDay=-1;
+                }
+                calendarTds[lastDay+i+1].innerText=today.getDate();
+                // 오늘날짜 배경 까맣게
+                if(today.getDate()==thisDate) {
+                    calendarTds[lastDay+i+1].style.background="black";
+                    calendarTds[lastDay+i+1].style.color="white";
+                    calendarTds[lastDay+i+1].style.borderRadius=20+"px";
+                }
+            }
+            thisYear=today.getFullYear();
+            thisMonth=today.getMonth();
+
+            // 상단 월 + 년도
+            monthYearTxt.div.innerText=months[thisMonth]+" "+thisYear;
+            monthYearTxt.div.style.color="black";
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>

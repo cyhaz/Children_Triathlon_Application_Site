@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css"/>
+    <title>신청서 작성</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- reference script -->
+    <script src="js/ObjectManager.js"></script>
+    <script src="allPageScript.js"></script>
+    <script src="js/SiteObject.js"></script>
+    <script src="js/Logo.js"></script>
+    <script src="js/Btn.js"></script>
+    <script src="js/MenuTable.js"></script>
+    <script src="js/MenuTr.js"></script>
+    <script src="js/MainImg.js"></script>
+    <script src="js/ContainerMenuTable.js"></script>
+    <script src="js/ContainerMenuTr.js"></script>
+    <script src="js/InfoBox.js"></script>
+    <script src="js/TextObject.js"></script>
+    <script src="js/InputObject.js"></script>
+    <script src="js/ApplyBtn.js"></script>
+    
+    <!-- main script -->
+    <script>
+        // 대회안내 : 0, 신청하기 : 1, Game : 2, 마이페이지 : 3
+        var thisPageValue=1;
+
+        var applyFormTextArray=['* 신청대회명','* 거주지역', '* 참가인','* 부모님','* 부모님연락처','* 비밀번호'];
+        var applyFormInputArray=['어린이이름을','부모님이름을','\'-\'를 제외하고','비밀번호를'];
+        var inputTypeArray=["text","text","text","password"];
+        var inputArray=[];
+        var competitionNameOptionArray=[
+            '대회를 선택하세요',
+            '대회 1 (서울)',
+            '대회 2 (인천)',
+            '대회 3 (대구)',
+            '대회 4 (대전)',
+            '대회 5 (여수)'
+        ];
+        var residenceArray=['거주지역을 선택하세요','서울시','경기도','강원도','충청도','전라도','경상도','제주도'];
+        var selectArray=[competitionNameOptionArray, residenceArray];
+
+        window.addEventListener("load", function() {
+            init();  // all container reset
+            createTopContainer();  // btn [logo, login, signup] 
+            createMenuContainer();  // slide menuBar
+            createImgContainer();  // slide main images
+            createContainer();  // shortcutBtn [calendar, application]
+            createBottomContainer();  // info
+            mainLoop();  // objectManager.event method
+        });
+
+        // main container (log in form)
+        function createContainer() {
+            createMenuList();  // main container menu list
+
+            // application form text
+            for(var i=0;i<applyFormTextArray.length;i++) {
+                var text1=new TextObject(container, 120, 30, 400, 80+i*55, applyFormTextArray[i]);
+            }
+            // application form selectBox (신청대회명, 거주지역)
+            createSelectBox();
+
+            // application form inputBox
+            for(var i=0;i<applyFormInputArray.length;i++) {
+                var input1=new InputObject(container, 200, 30, 550, 190+i*55, applyFormInputArray[i], inputTypeArray[i]);
+                inputArray.push(input1);
+            }
+            // application form Btn
+            var applyBtn=new ApplyBtn(container, 320, 50, 400, 420, "신청완료", hrefArray[9]);
+            objectManager.addObject(applyBtn);
+        }
+
+        // application form selectBox
+        function createSelectBox() {
+            for(var a=0;a<2;a++) {
+                var selectBox=document.createElement("select");
+                selectBox.style.width=165+"px";
+                selectBox.style.height=25+"px";
+                selectBox.style.position="absolute";
+                selectBox.style.left=550+"px";
+                selectBox.style.top=(80+a*55)+"px";
+                for(var i=0;i<selectArray[a].length;i++) {
+                    var option=document.createElement("option");
+                    option.innerText=selectArray[a][i];
+                    selectBox.appendChild(option);
+                }
+                container.appendChild(selectBox);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="topContainer"></div>
+        <div id="menuContainer"></div>
+        <div id="imgContainer"></div>
+        <div id="container"></div>
+        <div id="bottomContainer"></div>
+    </div>
+</body>
+</html>
